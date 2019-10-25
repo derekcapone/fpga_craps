@@ -1,0 +1,12 @@
+db/
+incremental_db/
+output_files/
+simulation/
+work/
+craps.qpf
+craps.qsf
+craps.vhd.bak
+crapsSim.cr.mti
+crapsSim.mpf
+point_reg.vhd.bak
+vsim.wlf
