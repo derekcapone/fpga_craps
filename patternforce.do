@@ -1,40 +1,69 @@
-force -freeze sim:/craps/point 0000
-force -freeze sim:/craps/sp 0
+force -freeze sim:/craps/clk 0
+force -freeze sim:/craps/reset 0
+force -freeze sim:/craps/in_val 0000
 run 20000
 
-force -freeze sim:/craps/point 0000
-force -freeze sim:/craps/sp 0
+force -freeze sim:/craps/clk 1
+force -freeze sim:/craps/reset 0
+force -freeze sim:/craps/in_val 0101
 run 20000
 
-force -freeze sim:/craps/point 0101
-force -freeze sim:/craps/sp 1
+force -freeze sim:/craps/clk 0
+force -freeze sim:/craps/reset 0
+force -freeze sim:/craps/in_val 0110
 run 20000
 
-force -freeze sim:/craps/point 0101
-force -freeze sim:/craps/sp 0
+force -freeze sim:/craps/clk 1
+force -freeze sim:/craps/reset 0
+force -freeze sim:/craps/in_val 0110
 run 20000
 
-force -freeze sim:/craps/point 0100
-force -freeze sim:/craps/sp 0
+force -freeze sim:/craps/clk 0
+force -freeze sim:/craps/reset 0
+force -freeze sim:/craps/in_val 0110
 run 20000
 
-force -freeze sim:/craps/point 0100
-force -freeze sim:/craps/sp 0
+force -freeze sim:/craps/clk 1
+force -freeze sim:/craps/reset 0
+force -freeze sim:/craps/in_val 0111
 run 20000
 
-force -freeze sim:/craps/point 0100
-force -freeze sim:/craps/sp 1
+force -freeze sim:/craps/clk 0
+force -freeze sim:/craps/reset 0
+force -freeze sim:/craps/in_val 0111
 run 20000
 
-force -freeze sim:/craps/point 0111
-force -freeze sim:/craps/sp 1
+force -freeze sim:/craps/clk 1
+force -freeze sim:/craps/reset 0
+force -freeze sim:/craps/in_val 0100
 run 20000
 
-force -freeze sim:/craps/point 1001
-force -freeze sim:/craps/sp 0
+force -freeze sim:/craps/clk 0
+force -freeze sim:/craps/reset 0
+force -freeze sim:/craps/in_val 1011
 run 20000
 
-force -freeze sim:/craps/point 1001
-force -freeze sim:/craps/sp 1
+force -freeze sim:/craps/clk 1
+force -freeze sim:/craps/reset 0
+force -freeze sim:/craps/in_val 1011
 run 20000
 
+force -freeze sim:/craps/clk 0
+force -freeze sim:/craps/reset 0
+force -freeze sim:/craps/in_val 0101
+run 20000
+
+force -freeze sim:/craps/clk 1
+force -freeze sim:/craps/reset 0
+force -freeze sim:/craps/in_val 0101
+run 20000
+
+force -freeze sim:/craps/clk 0
+force -freeze sim:/craps/reset 0
+force -freeze sim:/craps/in_val 0010
+run 20000
+
+force -freeze sim:/craps/clk 1
+force -freeze sim:/craps/reset 0
+force -freeze sim:/craps/in_val 0010
+run 20000
