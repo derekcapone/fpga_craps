@@ -13,7 +13,7 @@ architecture arch of point_reg is
 
 begin
 
-	process(point)
+	process(sp, point)
 	begin
 		if (sp='1') then
 			npoint <= point;
