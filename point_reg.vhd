@@ -12,10 +12,10 @@ end point_reg;
 architecture arch of point_reg is
 
 begin
-
-	process(sp, point)
+	
+	process(sp)
 	begin
-		if (sp='1') then
+		if(sp'event and sp='0') then
 			npoint <= point;
 		end if;
 	end process;

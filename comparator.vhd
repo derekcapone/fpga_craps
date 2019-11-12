@@ -5,17 +5,17 @@ entity comparator is
 	port(
 		in1		: in std_logic_vector(3 downto 0);
 		in2		: in std_logic_vector(3 downto 0);
-		eq			: out std_logic
+		eq			: out std_logic := '0'
 		);
 end comparator;
 
 architecture arch of comparator is
 
 begin
-
+	
 	process(in1, in2)
 	begin
-		if (in1 = in2) then
+		if(in1 = in2 and in1 /= "0000") then
 			eq <= '1';
 		else
 			eq <= '0';

@@ -3,7 +3,7 @@ use IEEE.std_logic_1164.all;
 
 entity datapath is
 	port(
-		roll, sp				: in std_logic;
+		roll, sp, clk		: in std_logic;
 		val1, val2			: in std_logic_vector(3 downto 0); -- temp for roll --
 		d7, d711, d2312	: out std_logic;
 		eq						: out std_logic
@@ -26,7 +26,7 @@ component comparator is
 	port(
 		in1		: in std_logic_vector(3 downto 0);
 		in2		: in std_logic_vector(3 downto 0);
-		eq			: out std_logic
+		eq			: out std_logic := '0'
 		);
 end component;
 
@@ -44,7 +44,7 @@ end component;
 -- define test logic --
 component test_logic is
 	port(
-		reset			: in std_logic;
+		reset					: in std_logic;
 		in_val				: in std_logic_vector(3 downto 0);
 		d7, d711, d2312	: out std_logic
 		);
@@ -55,7 +55,7 @@ component counter is
 	port(
 		roll		: in std_logic;
 		i_val		: in std_logic_vector(3 downto 0);
-		o_val		: out std_logic_vector(3 downto 0) := "0000"
+		o_val		: out std_logic_vector(3 downto 0)
 		);
 end component;
 
