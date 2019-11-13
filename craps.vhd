@@ -9,25 +9,27 @@ entity craps is
 --		lose	: out std_logic
 --	);
 	port(
-		reset					: in std_logic;
-		in_val				: in std_logic_vector(3 downto 0);
-		d7, d711, d2312	: out std_logic
+		enter, reset, clk		: in std_logic;
+		d7, d711, d2312, eq 	: in std_logic;
+		roll, sp					: out std_logic;
+		w, l 				: out std_logic
 		);
 end craps;
 
 architecture structural of craps is
 
-component test_logic is
+component controller is
 	port(
-		reset					: in std_logic;
-		in_val				: in std_logic_vector(3 downto 0);
-		d7, d711, d2312	: out std_logic
+		enter, reset, clk		: in std_logic;
+		d7, d711, d2312, eq 	: in std_logic;
+		roll, sp					: out std_logic;
+		w, l 				: out std_logic
 		);
 end component;
 
 begin
 
-	comp : component test_logic port map(reset => reset, in_val => in_val, d7 => d7, d711 => d711, d2312 => d2312);
+	cont : component controller port map(enter => enter, reset => reset, clk => clk, d711 => d711, d2312 => d2312, eq => eq, roll => roll, sp => sp, w => w, l => l, d7 => d7);
 
 end structural;
 
