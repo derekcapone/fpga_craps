@@ -4,8 +4,8 @@ use IEEE.std_logic_1164.all;
 entity datapath is
 	port(
 		roll, sp, clk		: in std_logic;
-		val1, val2			: in std_logic_vector(3 downto 0); -- temp for roll --
 		d7, d711, d2312	: out std_logic;
+		out1, out2			: out std_logic_vector(3 downto 0);
 		eq						: out std_logic
 		);
 end datapath;
@@ -54,8 +54,8 @@ end component;
 component counter is
 	port(
 		roll		: in std_logic;
-		i_val		: in std_logic_vector(3 downto 0);
-		o_val		: out std_logic_vector(3 downto 0)
+		clk		: in std_logic;
+		o_val		: out std_logic_vector(3 downto 0) := "0000"
 		);
 end component;
 
@@ -67,8 +67,11 @@ signal o_point				: std_logic_vector(3 downto 0);  -- output of point register -
 begin
 
 	-- instantiate counters -- 
-	count1 : component counter port map(roll => roll, i_val => val1, o_val => c_out1);
-	count2 : component counter port map(roll => roll, i_val => val2, o_val => c_out2);
+	count1 : component counter port map(roll => roll, o_val => c_out1, clk => clk);
+	count2 : component counter port map(roll => roll, o_val => c_out2, clk => clk);
+	
+	out1 <= c_out1;
+	out2 <= c_out2;
 	
 	-- instantiate adder --
 	adder : component fouradder port map(ctrl => '0', a => c_out1, b => c_out2, sum => add_out, cout => carry);

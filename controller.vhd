@@ -5,7 +5,7 @@ entity controller is
 	port(
 		enter, reset, clk		: in std_logic;
 		d7, d711, d2312, eq 	: in std_logic;
-		roll,					: out std_logic;
+		roll					: out std_logic;
 		sp					: out std_logic := '1';
 		w, l 				: out std_logic
 		);
