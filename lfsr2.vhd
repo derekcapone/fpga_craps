@@ -1,12 +1,13 @@
  library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 
-entity lfsr is
+entity lfsr2 is
     Port ( clk : in STD_LOGIC;
+				roll : in std_logic;
            outp : out STD_LOGIC_VECTOR (3 downto 0));
-end lfsr;
+end lfsr2;
 
-architecture Behavioral of lfsr is
+architecture Behavioral of lfsr2 is
 
 signal feedback : std_logic;
 signal n_reg : std_logic_vector(3 downto 0):="0000";
@@ -14,11 +15,11 @@ signal out_reg : std_logic_vector(2 downto 0):="000";
 
 begin
 
-	feedback <= not (out_reg(1) xor out_reg(2));
+	feedback <= not (out_reg(0) xor out_reg(2));
 
 	process (clk)
 	begin
-		 if (rising_edge(clk)) then
+		 if (rising_edge(clk) and roll='1') then
 				out_reg <= (out_reg(1 downto 0) & feedback);
 		 end if;
 	end process;

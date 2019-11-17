@@ -50,8 +50,16 @@ component test_logic is
 		);
 end component;
 
--- define test logic --
+-- define counters --
 component counter is
+	port(
+		roll		: in std_logic;
+		clk		: in std_logic;
+		o_val		: out std_logic_vector(3 downto 0) := "0000"
+		);
+end component;
+
+component counter2 is
 	port(
 		roll		: in std_logic;
 		clk		: in std_logic;
@@ -68,7 +76,7 @@ begin
 
 	-- instantiate counters -- 
 	count1 : component counter port map(roll => roll, o_val => c_out1, clk => clk);
-	count2 : component counter port map(roll => roll, o_val => c_out2, clk => clk);
+	count2 : component counter2 port map(roll => roll, o_val => c_out2, clk => clk);
 	
 	out1 <= c_out1;
 	out2 <= c_out2;

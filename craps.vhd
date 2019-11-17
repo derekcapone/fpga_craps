@@ -10,8 +10,12 @@ entity craps is
 --		val1, val2			: in std_logic_vector(3 downto 0); -- temp for roll --
 --		lose	: out std_logic
 --	);
-    Port ( clk : in STD_LOGIC;
-           outp : out STD_LOGIC_VECTOR (3 downto 0));
+	port(
+		roll, sp, clk		: in std_logic;
+		d7, d711, d2312	: out std_logic;
+		out1, out2			: out std_logic_vector(3 downto 0);
+		eq						: out std_logic
+		);
 end craps;
 
 architecture structural of craps is
@@ -34,9 +38,12 @@ component datapath is
 		);
 end component;
 
-component lfsr is
-    Port ( clk : in STD_LOGIC;
-           outp : out STD_LOGIC_VECTOR (3 downto 0));
+component counter is
+	port(
+		roll		: in std_logic;
+		clk		: in std_logic;
+		o_val		: out std_logic_vector(3 downto 0) := "0000"
+		);
 end component;
 
 signal id7, id711, id2312 : std_logic;
@@ -48,9 +55,7 @@ begin
 --	control : component controller port map(clk => clk, reset => reset, enter => enter, w => win, l => lose, d7 => id7, d711 => id711, d2312 => id2312, eq => ieq, roll => iroll, sp => isp);
 	
 	-- instantiate the datapath --
-	--data : component datapath port map(roll => roll, sp => sp, clk => clk, d7 => d7, d711 => d711, d2312 => d2312, eq => eq, out1 => out1, out2 => out2);
-	
-	lf : component lfsr port map(clk => clk, outp => outp);
+	data : component datapath port map(roll => roll, sp => sp, clk => clk, d7 => d7, d711 => d711, d2312 => d2312, eq => eq, out1 => out1, out2 => out2);
 
 end structural;
 
