@@ -4,6 +4,7 @@ use IEEE.std_logic_1164.all;
 entity datapath is
 	port(
 		roll, sp, clk		: in std_logic;
+		rst					: in std_logic;
 		d7, d711, d2312	: out std_logic;
 		out1, out2			: out std_logic_vector(3 downto 0);
 		eq						: out std_logic
@@ -16,6 +17,7 @@ architecture arch of datapath is
 component point_reg is
 	port(
 		sp 		: in std_logic;
+		rst		: in std_logic;
 		point 	: in std_logic_vector(3 downto 0);
 		npoint 	: out std_logic_vector(3 downto 0)
 		);
@@ -85,7 +87,7 @@ begin
 	adder : component fouradder port map(ctrl => '0', a => c_out1, b => c_out2, sum => add_out, cout => carry);
 	
 	-- instantiate point register --
-	pr : component point_reg port map(sp => sp, point => add_out, npoint => o_point);
+	pr : component point_reg port map(sp => sp, point => add_out, npoint => o_point, rst => rst);
 	
 	-- instantiate comparator --
 	comp : component comparator port map(in1 => add_out, in2 => o_point, eq => eq);
