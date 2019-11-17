@@ -75,7 +75,7 @@ begin
 	
 	process(enter)
 	begin
-		if(enter'event and enter='1') then
+		if(enter'event and enter='0') then
 			num_roll <= num_roll + 1;
 		end if;
 	end process;
