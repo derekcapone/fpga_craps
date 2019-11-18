@@ -14,7 +14,9 @@ entity controller is
 	lose: out std_logic;
 	
 	sp: out std_logic := '1';
-	roll: out std_logic
+	roll: out std_logic;
+	
+	is0, is1, is2: out std_logic
 	);
 end controller;
 
@@ -24,6 +26,8 @@ type state_types is (S0, S1, S2, SW, SL);
 signal state_reg, state_next : state_types;
 signal other1: std_logic;
 signal other2: std_logic;
+
+signal i : integer := 0; -- loop variable
 
 
 begin
@@ -37,7 +41,7 @@ begin
 	end if;
 end process;
 
-process(D7, D711, D2312, Eq, enter)
+process(enter, state_reg)
 begin
 	case state_reg is
 		when S0 =>
@@ -47,7 +51,7 @@ begin
 				state_next <= S0;
 			end if;
 		when S1 =>
-			if (enter = '1') then
+			if (enter = '1' and i > 2) then
 				state_next <= S2;
 			elsif (D711 = '1') then
 				state_next <= SW;
@@ -83,7 +87,24 @@ with state_reg select
 with state_reg select
 	lose <= '1' when SL,
 			'0' when others;
+			
+with state_reg select
+	is0 <= '1' when S0,
+			'0' when others;
+with state_reg select
+	is1 <= '1' when S1,
+			'0' when others;
+with state_reg select
+	is2 <= '1' when S2,
+			'0' when others;
 
 roll <= enter;
+
+process(enter)
+begin
+if (enter'event and enter = '1') then
+	i <= i + 1;
+end if;
+end process;
 
 end architecture;
