@@ -56,9 +56,6 @@ component clk_div is
 		clock_1Hz				: OUT	STD_LOGIC);
 end component;
 
-signal id7, id711, id2312 : std_logic;
-signal ieq, isp, iroll : std_logic;
-signal iclk: std_logic;
 
 component Hex_7Seg IS
 	PORT(hex_digit		: IN	STD_LOGIC_VECTOR(3 downto 0);
@@ -69,6 +66,7 @@ END component;
 signal id7, id711, id2312 : std_logic;
 signal ieq, isp, iroll : std_logic;
 signal iout1, iout2 : std_logic_vector(3 downto 0);
+signal iclk: std_logic;
 
 begin
 
