@@ -3,83 +3,87 @@ use IEEE.std_logic_1164.all;
 
 entity controller is
 	port(
-		enter, reset, clk		: in std_logic;
-		rst						: in std_logic;
-		d7, d711, d2312, eq 	: in std_logic;
-		roll					: out std_logic;
-		sp					: out std_logic := '1';
-		w, l 				: out std_logic
-		);
+	enter: in std_logic;
+	rst:	in	std_logic;
+	clk:	in	std_logic;
+	
+	D7, D711, D2312: in std_logic;
+	Eq: in std_logic;
+	
+	win:	out std_logic;
+	lose: out std_logic;
+	
+	sp: out std_logic := '1';
+	roll: out std_logic
+	);
 end controller;
 
-architecture structural of controller is
+architecture behavioral of controller is
 
-type state_types is (BEG, A, ROUND, B, LOSE, WIN);
-signal current_state : state_types := BEG;
-signal num_roll, follow : integer := 0;
+type state_types is (S0, S1, S2, SW, SL);
+signal state_reg, state_next : state_types;
+signal other1: std_logic;
+signal other2: std_logic;
+
 
 begin
 
-	process(clk, enter)
-	begin
-		if(clk'event and clk='1') then
-			roll <= '1';
-			case current_state is
-				when BEG =>
-					if(num_roll > follow) then
-						current_state <= A;
-						roll <= '0';	--indicate to datapath to begin calculation--
-						follow <= num_roll;
-					end if;
-				when A =>
-					if(d711 = '1') then
-						current_state <= WIN;
-						w <= '1';
-					elsif(d2312 = '1') then
-						current_state <= LOSE;
-						l <= '1';
-					else
-						current_state <= ROUND;
-					end if;
-				when ROUND =>
-					sp <= '0';
-					if(num_roll > follow) then
-						roll <= '0';
-						current_state <= B;
-						follow <= num_roll;
-					end if;
-				when B =>
-					if(eq = '1') then
-						current_state <= WIN;
-						w <= '1';
-					elsif(d7 = '1') then
-						current_state <= LOSE;
-						l <= '1';
-					else
-						current_state <= ROUND;
-					end if;
-				when WIN =>
-					if(reset='1') then
-						sp <= '1';
-						w <= '0';
-						current_state <= BEG;
-					end if;
-				when LOSE =>
-					if(reset='1') then
-						sp <= '1';
-						l <= '0';
-						current_state <= BEG;
-					end if;
-			end case;
-		end if;
-	end process;
-	
-	process(enter)
-	begin
-		if(enter'event and enter='0') then
-			num_roll <= num_roll + 1;
-		end if;
-	end process;
-	
+process(clk, rst)
+begin
+	if(rst = '1') then
+		state_reg <= S0;
+	elsif(clk'event and clk = '1') then
+		state_reg <= state_next;
+	end if;
+end process;
 
-end structural;
+process(D7, D711, D2312, Eq, enter)
+begin
+	case state_reg is
+		when S0 =>
+			if (enter = '1') then
+				state_next <= S1;
+			else
+				state_next <= S0;
+			end if;
+		when S1 =>
+			if (enter = '1') then
+				state_next <= S2;
+			elsif (D711 = '1') then
+				state_next <= SW;
+			elsif (D2312 = '1') then
+				state_next <= SL;
+			else
+				state_next <= S1;
+			end if;
+		when S2 =>
+			if (Eq = '1') then
+				state_next <= SW;
+			elsif (D7 = '1') then
+				state_next <= SL;
+			else
+				state_next <= S2;
+			end if;
+		-- do we need when SW and SL where they just keep setting state_reg to itself?
+		when SW =>
+			state_next <= SW;
+		when SL =>
+			state_next <= SL;
+	end case;
+end process;
+
+with state_reg select
+	sp	<= '1' when S1,
+			'0' when others;
+
+with state_reg select
+	win <= '1' when SW,
+			'0' when others;
+			
+with state_reg select
+	lose <= '1' when SL,
+			'0' when others;
+
+roll <= enter;
+
+end architecture;

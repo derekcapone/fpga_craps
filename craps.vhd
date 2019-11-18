@@ -17,11 +17,19 @@ architecture structural of craps is
 
 component controller is
 	port(
-		enter, reset, clk		: in std_logic;
-		d7, d711, d2312, eq 	: in std_logic;
-		roll					: out std_logic;
-		sp					: out std_logic := '1';
-		w, l 				: out std_logic
+		enter: in std_logic;
+		rst:	in	std_logic;
+		clk:	in	std_logic;
+		
+		D7, D711, D2312: in std_logic;
+		Eq: in std_logic;
+		
+		win:	out std_logic;
+		lose: out std_logic;
+		
+		sp: out std_logic := '1';
+		roll: out std_logic
+
 		);
 end component;
 
@@ -41,7 +49,7 @@ signal ieq, isp, iroll : std_logic;
 begin
 
 	-- instantiate the controller --
-	control : component controller port map(enter => enter, reset => rst, clk => clk, D7 => id7, D711 => id711, D2312 => id2312, Eq => ieq, w => win, l => lose, sp => isp, roll => iroll);
+	control : component controller port map(enter => enter, rst => rst, clk => clk, D7 => id7, D711 => id711, D2312 => id2312, Eq => ieq, win => win, lose => lose, sp => isp, roll => iroll);
 	
 	-- instantiate the datapath --
 	data : component datapath port map(roll => iroll, sp => isp, clk => clk, d7 => id7, d711 => id711, d2312 => id2312, out1 => out1, out2 => out2, eq => ieq, rst => rst);
